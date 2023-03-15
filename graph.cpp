@@ -40,3 +40,29 @@ void Graph::addSommet(string s){
     }
 
 }
+
+void Graph::addArc(arc a){
+    string s1 = a.first;
+    string s2 = a.second;
+
+    //ajouter les sommets si ils n'existent pas
+    addSommet(s1);
+    addSommet(s2);
+
+    // coté "s1"
+    for(int i = 0; i < hash_table.size(); i++)
+    {
+        if(hash_table[i].first == s1)
+        {
+            hash_table[i].second.push_back(s2);
+        }
+
+        if(hash_table[i].first == s2)
+        {
+            hash_table[i].second.push_back(s1);
+        }
+    }
+
+    sort(hash_table.begin(),hash_table.end());
+
+}
