@@ -66,3 +66,21 @@ void Graph::addArc(arc a){
     sort(hash_table.begin(),hash_table.end());
 
 }
+
+vector<arc> Graph::getArcs()
+{
+    vector<arc> arcs = {};
+
+    for (int i = 0; i < hash_table.size(); i++)
+    {
+        // Il faut utiliser des boucles for simples car le parallelisme ne marche pas avec les iterators complexes
+        for (int j = 0; j < hash_table[i].second.size(); j++)
+        {
+            arcs.push_back({hash_table[i].first, hash_table[i].second[j]});
+        }
+    }
+
+    sort(arcs.begin(), arcs.end());
+    return arcs;
+}
+
