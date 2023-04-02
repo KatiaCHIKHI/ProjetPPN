@@ -22,6 +22,7 @@ class Graph
         void addSommet(string s);
         void addArc(arc a);
         vector<arc> getArcs();
+        vector<string> voisins(string sommet);
         vector<pair<string,int>> calculate_degrees();
         vector<string> degeneracy_ordering();
         void degeneracy();

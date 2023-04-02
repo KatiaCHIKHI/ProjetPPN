@@ -84,3 +84,14 @@ vector<arc> Graph::getArcs()
     return arcs;
 }
 
+vector<string> Graph::voisins(string sommet){
+    vector<string> voisins;
+    for (auto pair: hash_table){
+        if (pair.first == sommet){
+            for(string vois:pair.second){
+                voisins.push_back(vois);
+            }  
+        }
+    }   
+    return voisins;
+}
