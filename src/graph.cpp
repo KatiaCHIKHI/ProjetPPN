@@ -1,19 +1,18 @@
 #include "graph.h"
 
 
+
 Graph::Graph(dict ht = {}){
     hash_table = ht;
     sort(hash_table.begin(),hash_table.end());
 }
 
-set<string> Graph::getSommets(){
-    set<string> sommets;
+vector<string> Graph::getSommets(){
+    vector<string> sommets;
 
     for(int i = 0; i < hash_table.size(); i++)
     {   
-        //DEBUG: enleve ça quand c'est fini
-        cout << hash_table[i].first;
-        sommets.insert(hash_table[i].first);
+        sommets.push_back(hash_table[i].first);
     }
 
     return sommets;
@@ -40,7 +39,7 @@ void Graph::addSommet(string s){
     }
 
 }
-
+ 
 void Graph::addArc(arc a){
     string s1 = a.first;
     string s2 = a.second;
@@ -67,21 +66,21 @@ void Graph::addArc(arc a){
 
 }
 
-vector<arc> Graph::getArcs()
-{
+vector<arc> Graph::getArcs(){
     vector<arc> arcs = {};
 
-    for (int i = 0; i < hash_table.size(); i++)
-    {
-        // Il faut utiliser des boucles for simples car le parallelisme ne marche pas avec les iterators complexes
-        for (int j = 0; j < hash_table[i].second.size(); j++)
-        {
+    for(int i = 0; i < hash_table.size(); i++)
+    {   
+        // Il faut utiliser des boucles for simples car le parallelisme ne marche pas avec les iterators complexes 
+        for(int j = 0; j < hash_table[i].second.size(); j++)
+        {   
             arcs.push_back({hash_table[i].first, hash_table[i].second[j]});
-        }
+        }   
     }
 
-    sort(arcs.begin(), arcs.end());
+    sort(arcs.begin(),arcs.end());
     return arcs;
+
 }
 
 vector<string> Graph::voisins(string sommet){
@@ -94,4 +93,33 @@ vector<string> Graph::voisins(string sommet){
         }
     }   
     return voisins;
+}
+
+
+vector<pair<string,int>> Graph::calculate_degrees(){
+
+    //vecteur sommets,degrée
+    vector<pair<string,int>> degrees = {};
+
+    auto arc_list = getArcs();
+
+    for(int i = 0; i < arc_list.size(); i++)
+    {    
+        degrees.push_back({arc_list[i].first,0});
+        
+        for(int j = 0; j < arc_list.size(); j++)
+        {   
+            
+            if(arc_list[j].first == arc_list[i].first)
+            {   
+                degrees[i].second += 1;
+            }
+        }
+    }
+
+    sort( degrees.begin(), degrees.end() );
+    degrees.erase( unique( degrees.begin(), degrees.end() ), degrees.end() );
+
+    return degrees;
+
 }

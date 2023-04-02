@@ -18,7 +18,7 @@ class Graph
     public:
         dict hash_table;
         Graph(dict ht);
-        set<string> getSommets();
+        vector<string> getSommets();
         void addSommet(string s);
         void addArc(arc a);
         vector<arc> getArcs();
