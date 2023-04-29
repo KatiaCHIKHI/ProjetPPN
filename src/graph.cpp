@@ -123,3 +123,44 @@ vector<pair<string,int>> Graph::calculate_degrees(){
     return degrees;
 
 }
+
+
+vector<string> Graph::degeneracy_ordering()
+{
+    vector<string> ordering = {};
+    // cout << "[degeneracy_ordering] before degrees calculation" << endl;
+    vector<pair<string, int>> degrees = calculate_degrees();
+    // cout << "[degeneracy_ordering] after degrees calculation" << endl;
+    map<string, int> degrees_map;
+    copy(degrees.begin(), degrees.end(), inserter(degrees_map, degrees_map.begin()));
+    // ordonner le vecteur selon la deuxième valeur
+    sort(degrees.begin(), degrees.end(), [](const auto &droite, const auto &gauche)
+         { return droite.second < gauche.second; });
+
+    /* 
+    int count = 0;
+    int total = hash_table.size();
+    */
+    for (int i = 0; i < degrees.size(); ++i)
+    {
+
+        auto somm = degrees[i];
+        ordering.push_back((somm).first);
+
+        // show progress
+        //show_loading(count, total, "degeneracy ordering");
+
+        vector<string> neighbors = voisins((somm).first);
+
+        for (int j = 0; j < neighbors.size(); j++)
+        {
+            string s = neighbors[j];
+            degrees_map[s]--;
+        }
+        degrees_map.erase((somm).first);
+    }
+
+    //cout << endl;
+
+    return ordering;
+}
