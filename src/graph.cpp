@@ -164,3 +164,73 @@ vector<string> Graph::degeneracy_ordering()
 
     return ordering;
 }
+
+Graph Graph::find_gj(int j, vector<string> ordre)
+{
+    //cout << "Graph induit N°" << j << endl;
+
+    Graph gj;
+    vector<string> list_voisinage;
+    vector<string> Vi;
+    vector<string> sommets = getSommets();
+
+    int vertex_order = -1;
+
+    // calcul N[vi]
+    list_voisinage = hash_table[j].second;
+    list_voisinage.push_back(sommets[j]);
+    //cout << "Calcul N[vi] complet" << endl;
+
+    // calcul Vi
+    for (int i = 0; i < ordre.size(); i++)
+    {
+        if (ordre[i] == sommets[j])
+        {
+            vertex_order = i;
+        }
+        if (vertex_order != -1)
+        {
+            Vi.push_back(ordre[i]);
+        }
+    }
+
+    //cout << "Calcul Vi complet" << endl;
+
+    // N[vi] inter Vi
+    for (string v1 : list_voisinage)
+    {
+        for (string v2 : Vi)
+        {
+            if (v1 == v2)
+            {
+                gj.addSommet(v1);
+            }
+        }
+    }
+
+    //cout << "Calcul N[vi] inter Vi complet" << endl;
+
+    // ajout des arcs reliants
+    vector<string> Sommets_Gj = gj.getSommets();
+    for (string som : Sommets_Gj)
+    {
+        for (string som_voisin : voisins(som))
+        {
+            if (find(Sommets_Gj.begin(), Sommets_Gj.end(), som_voisin) != Sommets_Gj.end())
+            {
+                for (int i = 0; i < gj.hash_table.size(); i++)
+                {
+                    if (gj.hash_table[i].first == som)
+                    {
+                        gj.hash_table[i].second.push_back(som_voisin);
+                    }
+                }
+            }
+        }
+    }
+
+    //cout << "Ajout des arcs reliants complet" << endl;
+
+    return gj;
+}
+
