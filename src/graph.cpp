@@ -234,4 +234,23 @@ Graph Graph::find_gj(int j, vector<string> ordre)
     return gj;
 }
 
+/// functions used in the main Bron_Kerbosch function
+ 
+vector<string> sort_items(vector<string> items, vector<string> order){
+    sort(items.begin(), items.end(), [&order](string a, string b){
+        return find(order.begin(), order.end(), a) < std::find(order.begin(), order.end(), b);
+    });
+    return items;
+}
 
+
+ bool isContained(vector<string>& a, vector<string>& b) {
+    return includes(b.begin(), b.end(), a.begin(), a.end());
+}
+
+// Fonction pour ajouter une liste à une liste de listes si elle n'y est pas déjà
+void filter_list(vector<vector<string>>& list_of_lists, vector<string>& list_to_add) {
+    if (!any_of(list_of_lists.begin(), list_of_lists.end(),
+            [&](vector<string>& current_list) { return isContained(list_to_add, current_list); })) {
+        list_of_lists.push_back(list_to_add);
+    }
