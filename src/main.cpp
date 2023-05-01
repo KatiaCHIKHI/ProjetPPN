@@ -20,8 +20,7 @@ template<typename T>
 void printVector(vector<T> &vec)
 {
     for (const auto &item : vec) {
-        cout << "{" << item.first << ","
-                << item.second << "}" << "; ";
+        cout << "{" << item << "," "}" << "; ";
     }
     cout << endl;
 }
@@ -83,6 +82,10 @@ int main(){
     hash_deserialize(g.hash_table,archivename);
 
     g.printHash();
+     cout << "before degen_order" << endl;
+    vector<string> degen_order = g.degeneracy_ordering();
+
+    printVector(degen_order);
 
     /* Graph Gj = g.find_gj(0); */
 

@@ -101,27 +101,24 @@ vector<string> Graph::voisins(string sommet){
 
 vector<pair<string,int>> Graph::calculate_degrees(){
 
-    //vecteur sommets,degrée
-    vector<pair<string,int>> degrees = {};
+    // vecteur sommets,degrée
+    vector<pair<string, int>> degrees = {};
+    dict hash = hash_table;
 
-    auto arc_list = getArcs();
-
-    for(int i = 0; i < arc_list.size(); i++)
-    {    
-        degrees.push_back({arc_list[i].first,0});
-        
-        for(int j = 0; j < arc_list.size(); j++)
-        {   
-            
-            if(arc_list[j].first == arc_list[i].first)
-            {   
-                degrees[i].second += 1;
-            }
+    for (int i = 0; i < hash.size(); i++)
+    {
+        degrees.push_back({hash[i].first, 0});
+        // cout << hash[i].first << endl;
+        for (int j = 0; j < hash[i].second.size(); j++)
+        {
+            degrees[i].second += 1;
         }
     }
 
-    sort( degrees.begin(), degrees.end() );
-    degrees.erase( unique( degrees.begin(), degrees.end() ), degrees.end() );
+    // cout << "[calculate_degrees] after loop" << endl;
+
+    sort(degrees.begin(), degrees.end());
+    degrees.erase(unique(degrees.begin(), degrees.end()), degrees.end());
 
     return degrees;
 
