@@ -3,6 +3,10 @@
 
 using namespace std;
 
+Graph g(graph_elements);
+
+vector<string> degen_order = g.degeneracy_ordering();
+
 dict graph_elements{
         {"1", {"2", "3"}},
         {"2", {"1", "3"}},
@@ -77,27 +81,64 @@ TEST(MainTest, DegeneracyOrdering)
 
 
 TEST(MainTest, FindGj)
-{
-    auto gj = g.find_gj(1);
-    auto s = gj.getSommets();
+{   
+    // Afficher Graphe Gj avec j=0
+    Graph gj = g.find_gj(0,degen_order);
+    
 
     cout << endl;
-
-    // Afficher les sommets gj
-    cout << "sommets gj : [";
-    for(auto it = s.begin(); it != s.end(); it++)
-    {
-        cout << *it << ",";
+    cout << " Graphe Gj avec j = 0" << endl;
+    for(pair<string,vector<string>> element: gj.hash_table){
+         cout<< "sommet:" << " " << element.first << " ";
+         cout<< "voisins:" << " "  ;
+         for(string s:element.second){
+            cout<< s << " ";
+         } 
+         cout << endl;
     }
-    cout << "]" << endl;
 
-    auto arcs = gj.getArcs();
+     // Afficher Graphe Gj avec j=1
+    gj = g.find_gj(1,degen_order);
+    
 
-    // Afficher les arcs gj
-    cout << "arcs : [";
-    for(auto it = arcs.begin(); it != arcs.end(); it++)
-    {
-        cout << "{"<< it->first << "," << it->second << "},";
+    cout << endl;
+    cout << " Graphe Gj avec j = 1" << endl;
+    for(pair<string,vector<string>> element: gj.hash_table){
+         cout<< "sommet:" << " " << element.first << " ";
+         cout<< "voisins:" << " "  ;
+         for(string s:element.second){
+            cout<< s << " ";
+         } 
+         cout << endl;
     }
-    cout << "]" << endl;
+
+     // Afficher Graphe Gj avec j=2
+    gj = g.find_gj(2,degen_order);
+    
+
+    cout << endl;
+    cout << " Graphe Gj avec j = 2" << endl;
+    for(pair<string,vector<string>> element: gj.hash_table){
+         cout<< "sommet:" << " " << element.first << " ";
+         cout<< "voisins:" << " "  ;
+         for(string s:element.second){
+            cout<< s << " ";
+         } 
+         cout << endl;
+    }
+
+     // Afficher Graphe Gj avec j=3
+    gj = g.find_gj(3,degen_order);
+    
+
+    cout << endl;
+    cout << " Graphe Gj avec j = 3" << endl;
+    for(pair<string,vector<string>> element: gj.hash_table){
+         cout<< "sommet:" << " " << element.first << " ";
+         cout<< "voisins:" << " "  ;
+         for(string s:element.second){
+            cout<< s << " ";
+         } 
+         cout << endl;
+    }
 }

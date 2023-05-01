@@ -234,3 +234,4 @@ Graph Graph::find_gj(int j, vector<string> ordre)
     return gj;
 }
 
+
