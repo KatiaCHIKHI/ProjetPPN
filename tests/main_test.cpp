@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../src/graph.cpp"
+#include "../src/BronKerbosch.cpp"
 
 using namespace std;
 
@@ -142,3 +143,20 @@ TEST(MainTest, FindGj)
          cout << endl;
     }
 }
+
+TEST(MainTest, FindClique)
+{
+    set<vector<string>> cliques = find_cliques(g);
+
+    for(auto c: cliques)
+    {
+        cout << "{";
+        for(auto u: c)
+        {
+            cout << u << ", ";
+        }
+        cout << "}" << endl;
+    }
+
+}
+
