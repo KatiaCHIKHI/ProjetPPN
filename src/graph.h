@@ -26,7 +26,7 @@ class Graph
         vector<pair<string,int>> calculate_degrees();
         vector<string> degeneracy_ordering();
         void degeneracy();
-        Graph find_gj();
+        Graph find_gj(int j, vector<string> ordre);
 };  
 
 #endif
