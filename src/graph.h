@@ -18,9 +18,10 @@ class Graph
     public:
         dict hash_table;
         Graph(dict ht);
+        void printHash();
         vector<string> getSommets();
         void addSommet(string s);
-        void addArc(arc a);
+        void addArc(string s1, string s2);          
         vector<arc> getArcs();
         vector<string> voisins(string sommet);
         vector<pair<string,int>> calculate_degrees();

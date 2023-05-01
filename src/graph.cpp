@@ -7,6 +7,18 @@ Graph::Graph(dict ht = {}){
     sort(hash_table.begin(),hash_table.end());
 }
 
+void Graph::printHash(){
+    for(dict::const_iterator it = hash_table.begin();it != hash_table.end(); ++it)
+    {
+        cout << (*it).first << " : {";
+        for(vector<string>::const_iterator jt = (*it).second.begin(); jt != ((*it).second.end()); ++jt )
+        {
+            cout << (*jt) << ",";
+        }
+        cout << "}" << endl;
+    } 
+}
+
 vector<string> Graph::getSommets(){
     vector<string> sommets;
 
@@ -33,37 +45,28 @@ void Graph::addSommet(string s){
     {
         hash_table.push_back({s,{}});
     }
-    else
-    {
-        cout << "Le sommet introduit existe déja dans la table de hachage!" <<endl;
-    }
 
 }
  
-void Graph::addArc(arc a){
-    string s1 = a.first;
-    string s2 = a.second;
-
-    //ajouter les sommets si ils n'existent pas
+void Graph::addArc(string s1, string s2)
+{
+    // ajouter les sommets si ils n'existent pas
     addSommet(s1);
     addSommet(s2);
 
     // coté "s1"
-    for(int i = 0; i < hash_table.size(); i++)
+    for (int i = 0; i < hash_table.size(); i++)
     {
-        if(hash_table[i].first == s1)
+        if (hash_table[i].first == s1)
         {
             hash_table[i].second.push_back(s2);
         }
 
-        if(hash_table[i].first == s2)
+        if (hash_table[i].first == s2)
         {
             hash_table[i].second.push_back(s1);
         }
     }
-
-    sort(hash_table.begin(),hash_table.end());
-
 }
 
 vector<arc> Graph::getArcs(){

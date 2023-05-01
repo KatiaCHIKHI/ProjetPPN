@@ -1,3 +1,4 @@
+#include <fstream> 
 #include <gtest/gtest.h>
 #include "../src/graph.cpp"
 #include "../src/BronKerbosch.cpp"
@@ -41,7 +42,7 @@ TEST(MainTest, AddGetSommets)
 
 TEST(MainTest, AddGetArc)
 {
-    g.addArc({"10","11"});
+    g.addArc("10","11");
 
     auto arcs = g.getArcs();
 
@@ -160,3 +161,27 @@ TEST(MainTest, FindClique)
 
 }
 
+TEST(MainTest, main)
+{
+    cout << "clique" << endl;
+    vector<vector<string>> T;
+    for (int j = 0; j < g.getSommets().size(); ++j)
+    {
+        Graph Gj = g.find_gj(j,degen_order);
+        set<vector<string>> cliques = find_cliques(Gj);
+        for (auto k : cliques)
+        {
+            k = sort_items(k, g.degeneracy_ordering());
+            filter_list(T,k);
+        }
+    }
+
+    for (vector<string> s : T)
+    {
+        cout << "clique" << endl;
+        for (string som : s)
+        {
+            cout << som << endl;
+        }
+    }
+}
