@@ -21,13 +21,12 @@ class Graph
         void printHash();
         vector<string> getSommets();
         void addSommet(string s);
-        void addArc(string s1, string s2);          
+        void addArc(string s1, string s2);
         vector<arc> getArcs();
         vector<string> voisins(string sommet);
         vector<pair<string,int>> calculate_degrees();
         vector<string> degeneracy_ordering();
-        void degeneracy();
-        Graph find_gj(int j, vector<string> ordre);
+        Graph find_gj(int j ,vector<string> ordre);
 };  
 
 #endif

@@ -1,22 +1,20 @@
-#include <fstream> 
 #include <gtest/gtest.h>
-#include "../src/graph.cpp"
-#include "../src/BronKerbosch.cpp"
+#include <fstream> 
+#include "../src/bron_kerbosch.cpp"
 
 using namespace std;
 
-Graph g(graph_elements);
-
-vector<string> degen_order = g.degeneracy_ordering();
 
 dict graph_elements{
         {"1", {"2", "3"}},
         {"2", {"1", "3"}},
         {"3", {"1", "2", "4"}},
         {"4", {"3"}}
-    };
+};
 
 Graph g(graph_elements);
+
+vector<string> degen_order = g.degeneracy_ordering();
 
 TEST(MainTest, HashTable)
 {
@@ -38,6 +36,7 @@ TEST(MainTest, AddGetSommets)
         cout << *it << ",";
     }
     cout << "]" << endl;
+
 }
 
 TEST(MainTest, AddGetArc)
@@ -163,25 +162,6 @@ TEST(MainTest, FindClique)
 
 TEST(MainTest, main)
 {
-    cout << "clique" << endl;
-    vector<vector<string>> T;
-    for (int j = 0; j < g.getSommets().size(); ++j)
-    {
-        Graph Gj = g.find_gj(j,degen_order);
-        set<vector<string>> cliques = find_cliques(Gj);
-        for (auto k : cliques)
-        {
-            k = sort_items(k, g.degeneracy_ordering());
-            filter_list(T,k);
-        }
-    }
-
-    for (vector<string> s : T)
-    {
-        cout << "clique" << endl;
-        for (string som : s)
-        {
-            cout << som << endl;
-        }
-    }
+    bron_kerbosch(g,degen_order);
 }
+

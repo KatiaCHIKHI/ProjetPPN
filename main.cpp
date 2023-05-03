@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <chrono>
 
-#include "BronKerbosch.cpp"
+#include "src/bron_kerbosch.cpp"
 
 
 using namespace std;
@@ -30,18 +30,35 @@ bool sortPairs(const pair<string, vector<string>> &x, const pair<string, vector<
     return stoi(x.first) < stoi(y.first);
 }
 
+int getNbrLines(string filename){
+    // Create and open a text file
+    ifstream file(filename);
+
+    int count = 0;
+
+    string lines; 
+    while (getline(file, lines))
+    {
+        count++;
+    }
+
+    return count;
+}
+
 void graph_load(Graph& g,string filename){
     string line;
-    float total = 4031.0;
+
+    int total = getNbrLines(filename);
+    int count = 0;
     // Create and open a text file
     ifstream dataset(filename);
 
     while (getline (dataset, line)) {
         int pos = line.find_first_of(' ');
         string s1 = line.substr(0,pos), s2 = line.substr(pos+1);
-        float p = (stof(s1) * 100.0) / total;
+        int p = (count * 100) / total;
         //show load progress
-        cout << "\r" << "Loading graph: " << fixed << setprecision(2) << p << "%" << flush;
+        show_loading(count, total, "dataset");
         g.addArc(s1,s2);
     }
 
@@ -72,7 +89,7 @@ int main(){
     Graph g;
     const string filename = "datasets/facebook_combined.txt";
     const string archivename = "datasets/facebook_dict.dat";
-
+    
     auto start = chrono::high_resolution_clock::now();
 
     //graph_load(g,filename);
@@ -81,44 +98,23 @@ int main(){
 
     hash_deserialize(g.hash_table,archivename);
 
-    g.printHash();
-     cout << "before degen_order" << endl;
+    /* g.printHash();
+    cout << "before degen_order" << endl;
+    
+
+    printVector(degen_order); */
+
     vector<string> degen_order = g.degeneracy_ordering();
 
-    printVector(degen_order);
+    Graph Gj = g.find_gj(0,degen_order);
 
-    /* Graph Gj = g.find_gj(0); */
-
-    /* cout << "clique" << endl;
-    vector<vector<string>> T;
-    for (int j = 0; j < g.getSommets().size(); ++j)
-    {
-        Graph Gj = g.find_gj(j);
-        set<vector<string>> cliques = find_cliques(Gj);
-        for (auto k : cliques)
-        {
-            k = sort_items(k, g.degeneracy_ordering());
-            filter_list(T,k);
-        }
-   
-    }
-    for (vector<string> s : T)
-    {
-        cout << "clique" << endl;
-        for (string som : s)
-        {
-            cout << som << endl;
-        }
-    }  */
-
-
-
+    bron_kerbosch(g,degen_order);
 
     // Get ending timepoint
     auto stop = chrono::high_resolution_clock::now();
 
     auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
-
+ 
     cout << "Time taken by function: "
          << duration.count() << " milliseconds" << endl;
 }
