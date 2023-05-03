@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <fstream> 
-#include "../src/bron_kerbosch.cpp"
+#include "../src/normal/bron_kerbosch.cpp"
 
 using namespace std;
 

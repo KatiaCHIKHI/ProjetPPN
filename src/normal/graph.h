@@ -26,6 +26,7 @@ class Graph
         vector<string> getSommets();
         void addSommet(string s);
         void addArc(string s1, string s2);
+        void removeDuplicateNeighbors();
         vector<arc> getArcs();
         vector<string> voisins(string sommet);
         vector<pair<string,int>> calculate_degrees();

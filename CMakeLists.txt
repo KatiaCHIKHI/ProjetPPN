@@ -18,10 +18,11 @@ enable_testing()
 
 add_subdirectory(src)
 
-file(COPY datasets DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/src)
-
 add_subdirectory(tests)
 
+file(COPY datasets DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/src/normal)
+
+file(COPY datasets DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/src/parallel)
 
 
 

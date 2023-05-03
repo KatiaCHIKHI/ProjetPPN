@@ -44,11 +44,12 @@ void Graph::addSommet(string s)
 {
     bool exists = false;
 
-    for (int i = 0; i < hash_table.size(); i++)
+    for (const auto& entry : hash_table)
     {
-        if (hash_table[i].first == s)
+        if (entry.first == s)
         {
             exists = true;
+            break;
         }
     }
 
@@ -65,17 +66,37 @@ void Graph::addArc(string s1, string s2)
     addSommet(s2);
 
     // coté "s1"
-    for (int i = 0; i < hash_table.size(); i++)
+    for (auto& entry : hash_table)
     {
-        if (hash_table[i].first == s1)
+        if (entry.first == s1)
         {
-            hash_table[i].second.push_back(s2);
+            entry.second.push_back(s2);
+        }
+        else if (entry.first == s2)
+        {
+            entry.second.push_back(s1);
+        }
+    }
+}
+
+void Graph::removeDuplicateNeighbors()
+{
+    // Iterate over each vertex in the hash table
+    for (auto& entry : hash_table)
+    {
+        // Create a set to store unique neighbors
+        unordered_set<string> uniqueNeighbors;
+
+        // Iterate over the adjacency list of the current vertex
+        // and add neighbors to the set
+        for (const auto& neighbor : entry.second)
+        {
+            uniqueNeighbors.insert(neighbor);
         }
 
-        if (hash_table[i].first == s2)
-        {
-            hash_table[i].second.push_back(s1);
-        }
+        // Replace the adjacency list of the current vertex with
+        // the unique neighbors stored in the set
+        entry.second = vector<string>(uniqueNeighbors.begin(), uniqueNeighbors.end());
     }
 }
 
@@ -116,14 +137,14 @@ vector<pair<string, int>> Graph::calculate_degrees()
     vector<pair<string, int>> degrees = {};
     dict hash = hash_table;
 
+    #pragma omp parallel for
     for (int i = 0; i < hash.size(); i++)
     {
-        degrees.push_back({hash[i].first, 0});
-        // cout << hash[i].first << endl;
-        for (int j = 0; j < hash[i].second.size(); j++)
+        int degree = hash[i].second.size();
+        #pragma omp critical
         {
-            degrees[i].second += 1;
-        }
+            degrees.push_back({hash[i].first, degree});
+        } 
     }
 
     // cout << "[calculate_degrees] after loop" << endl;
@@ -176,19 +197,15 @@ vector<string> Graph::degeneracy_ordering()
 
 Graph Graph::find_gj(int j, vector<string> ordre)
 {
-    //cout << "Graph induit N°" << j << endl;
-
     Graph gj;
     vector<string> list_voisinage;
     vector<string> Vi;
     vector<string> sommets = getSommets();
-
     int vertex_order = -1;
 
     // calcul N[vi]
     list_voisinage = hash_table[j].second;
     list_voisinage.push_back(sommets[j]);
-    //cout << "Calcul N[vi] complet" << endl;
 
     // calcul Vi
     for (int i = 0; i < ordre.size(); i++)
@@ -203,42 +220,49 @@ Graph Graph::find_gj(int j, vector<string> ordre)
         }
     }
 
-    //cout << "Calcul Vi complet" << endl;
-
     // N[vi] inter Vi
-    for (string v1 : list_voisinage)
+    vector<string> intersection;
+#pragma omp parallel for shared(intersection) // parallelize the loop
+    for (int i = 0; i < list_voisinage.size(); i++)
     {
-        for (string v2 : Vi)
+        for (int j = 0; j < Vi.size(); j++)
         {
-            if (v1 == v2)
+            if (list_voisinage[i] == Vi[j])
             {
-                gj.addSommet(v1);
-            }
-        }
-    }
-
-    //cout << "Calcul N[vi] inter Vi complet" << endl;
-
-    // ajout des arcs reliants
-    vector<string> Sommets_Gj = gj.getSommets();
-    for (string som : Sommets_Gj)
-    {
-        for (string som_voisin : voisins(som))
-        {
-            if (find(Sommets_Gj.begin(), Sommets_Gj.end(), som_voisin) != Sommets_Gj.end())
-            {
-                for (int i = 0; i < gj.hash_table.size(); i++)
+#pragma omp critical // synchronize access to the shared vector
                 {
-                    if (gj.hash_table[i].first == som)
-                    {
-                        gj.hash_table[i].second.push_back(som_voisin);
-                    }
+                    intersection.push_back(list_voisinage[i]);
                 }
             }
         }
     }
 
-    //cout << "Ajout des arcs reliants complet" << endl;
+    // Add vertices to Gj
+    for (string v : intersection)
+    {
+        gj.addSommet(v);
+    }
+
+    // ajout des arcs reliants
+    vector<string> Sommets_Gj = gj.getSommets();
+#pragma omp parallel for shared(gj) // parallelize the loop
+    for (int i = 0; i < Sommets_Gj.size(); i++)
+    {
+        string som = Sommets_Gj[i];
+        for (string som_voisin : voisins(som))
+        {
+            if (find(Sommets_Gj.begin(), Sommets_Gj.end(), som_voisin) != Sommets_Gj.end())
+            {
+                for (int j = 0; j < gj.hash_table.size(); j++)
+                {
+                    if (gj.hash_table[j].first == som)
+                    {
+                        gj.hash_table[j].second.push_back(som_voisin);
+                    }
+                }
+            }
+        }
+    }
 
     return gj;
 }

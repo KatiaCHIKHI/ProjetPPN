@@ -63,6 +63,8 @@ void graph_load(Graph &g, string filename)
 
         cout << endl;
 
+        g.removeDuplicateNeighbors();
+
         sort(g.hash_table.begin(), g.hash_table.end(), sortPairs);
 
         dataset.close();
@@ -102,9 +104,7 @@ int main(int argc, char* argv[])
 
     // Open the file
     ifstream file(filename);
-    
 
-    auto start = chrono::high_resolution_clock::now();
 
     graph_load(g,filename);
 
@@ -114,13 +114,15 @@ int main(int argc, char* argv[])
 
     g.printHash();
 
+    auto start = chrono::high_resolution_clock::now();
+
     bron_kerbosch(g);
 
     // Get ending timepoint
     auto stop = chrono::high_resolution_clock::now();
 
     auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
-
-    cout << "Time taken by function: "
-         << duration.count() << " milliseconds" << endl;
+      
+    //output duration  
+    cout << "Parallelized " << duration.count() << endl;
 }
