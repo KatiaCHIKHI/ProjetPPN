@@ -162,6 +162,6 @@ TEST(MainTest, FindClique)
 
 TEST(MainTest, main)
 {
-    bron_kerbosch(g,degen_order);
+    bron_kerbosch(g);
 }
 

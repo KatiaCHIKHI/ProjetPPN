@@ -17,8 +17,11 @@ class Graph
 { 
     public:
         dict hash_table;
+        vector<vector<string>> adj_list;
         Graph(dict ht);
         void printHash();
+        void hashToAdjacencyList();
+        vector<string> getNeighbors(const string& sommet);
         vector<string> getSommets();
         void addSommet(string s);
         void addArc(string s1, string s2);

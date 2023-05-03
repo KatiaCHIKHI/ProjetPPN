@@ -104,11 +104,7 @@ int main(){
 
     printVector(degen_order); */
 
-    vector<string> degen_order = g.degeneracy_ordering();
-
-    Graph Gj = g.find_gj(0,degen_order);
-
-    bron_kerbosch(g,degen_order);
+    bron_kerbosch(g);
 
     // Get ending timepoint
     auto stop = chrono::high_resolution_clock::now();
