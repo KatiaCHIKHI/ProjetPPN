@@ -5,7 +5,7 @@ void show_loading(int &count, int total, string type)
 {
     int p = (count * 100) / total;
     cout << "\r"
-         << "Loading " << type << " : " << p << "%" << flush;
+         << "Loading " << type << " : " << p << "% " << flush;
     count++;
 }
 
@@ -146,9 +146,10 @@ vector<string> Graph::degeneracy_ordering()
     sort(degrees.begin(), degrees.end(), [](const auto &droite, const auto &gauche)
          { return droite.second < gauche.second; });
 
+    /* 
     int count = 0;
     int total = hash_table.size();
-
+    */
     for (int i = 0; i < degrees.size(); ++i)
     {
 
@@ -156,7 +157,7 @@ vector<string> Graph::degeneracy_ordering()
         ordering.push_back((somm).first);
 
         // show progress
-        show_loading(count, total, "degeneracy ordering");
+        //show_loading(count, total, "degeneracy ordering");
 
         vector<string> neighbors = voisins((somm).first);
 
@@ -168,14 +169,14 @@ vector<string> Graph::degeneracy_ordering()
         degrees_map.erase((somm).first);
     }
 
-    cout << endl;
+    //cout << endl;
 
     return ordering;
 }
 
 Graph Graph::find_gj(int j, vector<string> ordre)
 {
-    cout << "Graph induit N°" << j << endl;
+    //cout << "Graph induit N°" << j << endl;
 
     Graph gj;
     vector<string> list_voisinage;
@@ -245,7 +246,7 @@ Graph Graph::find_gj(int j, vector<string> ordre)
 vector<string> sort_items(vector<string> items, vector<string> order)
 {
     sort(items.begin(), items.end(), [&order](string a, string b)
-         { return find(order.begin(), order.end(), a) < std::find(order.begin(), order.end(), b); });
+         { return find(order.begin(), order.end(), a) < find(order.begin(), order.end(), b); });
 
     return items;
 }
@@ -262,6 +263,6 @@ void filter_list(vector<vector<string>> &list_of_lists, vector<string> &list_to_
                 [&](const vector<string> &current_list)
                 { return isContained(list_to_add, current_list); }))
     {
-        list_of_lists.push_back(list_to_add);
+        list_of_lists.emplace_back(list_to_add);
     }
 }

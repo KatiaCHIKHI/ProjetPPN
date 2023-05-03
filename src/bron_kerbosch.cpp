@@ -6,6 +6,23 @@
 
 using namespace std;
 
+// fonction générique pour afficher un vecteur de vecteurs
+template <typename T>
+void print_vector(const vector<T>& vec)
+{
+    cout << "Vector contents: ";
+    for (const auto& element : vec)
+    {
+        cout << "{ ";
+        for (const auto& sub_element : element)
+        {
+            cout << sub_element << " ";
+        }
+        cout << "} ";
+        cout << endl;
+    }
+}
+
 set<string> intersection(set<string> v1, set<string> v2)
 {
 
@@ -105,28 +122,40 @@ set<vector<string>> find_cliques(Graph g)
 
 vector<vector<string>> bron_kerbosch(Graph g)
 {
-
-    cout << "clique" << endl;
-
     vector<vector<string>> T;
 
     vector<string> degen_order = g.degeneracy_ordering();
 
+    cout << "Ordre de dégénérescence du graphe principal calculé." << endl;
+
     int sommets_size = g.getSommets().size();
 
+    cout << "Calcul de cliques maximales à partir des graphes induits:" << endl;
     for (int j = 0; j < sommets_size; ++j)
     {
         Graph Gj = g.find_gj(j, degen_order);
 
+        cout << "\r                Graphe induit : " << j << " / " << sommets_size << "         " << flush;
+
         set<vector<string>> cliques = find_cliques(Gj);
+        int count = 1;
+        int total = cliques.size();
 
         for (vector<string> k : cliques)
         {
+
             k = sort_items(k, degen_order);
-            filter_list(T, k);
-        }
-        cout << flush << endl;
+            filter_list(T,k);
+            //print_vector(T);
+            int p = (count * 100) / total;
+            cout << "\r"
+                 << "Loading subgraphs " << " : " << p << "% " << flush;
+            count++;
+        } 
+        
     }
+
+    cout << endl;
 
     for (vector<string> s : T)
     {
@@ -140,3 +169,4 @@ vector<vector<string>> bron_kerbosch(Graph g)
 
     return T;
 }
+
