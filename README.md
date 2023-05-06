@@ -2,13 +2,9 @@
 
 (LINUX ONLY)
 
-Requires cmake 3.14+, boost serialization library (to serialize dataset c++ hash_tables) and OpenMP runtime library (for parallelization).
+Requires cmake 3.14+ and OpenMP runtime library (for parallelization).
 
-Plot generation requires Python 3 (numpy and matplotlib)
-
-To install boost serialization library:
-
-`sudo apt-get install libboost-serialization-dev`
+Plot generation requires Python 3 (with the packages numpy and matplotlib)
 
 To install the OpenMP runtime library:
 
