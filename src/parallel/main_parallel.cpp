@@ -1,11 +1,6 @@
 #include <iostream>
 #include <fstream>
 
-#include <boost/serialization/vector.hpp>
-#include <boost/serialization/utility.hpp>
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
-
 #include <vector>
 #include <set>
 #include <algorithm>
@@ -71,27 +66,10 @@ void graph_load(Graph &g, string filename)
     }
 }
 
-void hash_serlialize(dict hash, string filename)
-{
-    // Serialize and persist the object (for faster future loading)
-    ofstream outfile(filename);
-    boost::archive::text_oarchive archive(outfile);
-    archive << hash;
-}
-
-void hash_deserialize(dict &hash, string filename)
-{
-    // Deserialize from the file
-    ifstream infile(filename);
-    boost::archive::text_iarchive extract(infile);
-    extract >> hash;
-}
-
 int main(int argc, char* argv[])
 {
     Graph g;
     //const string filename = "datasets/email-Eu-core.txt";
-    //const string archivename = "datasets/facebook_dict.dat";
 
     // Check if the correct number of command-line arguments is passed
     if (argc != 2) {
@@ -105,17 +83,15 @@ int main(int argc, char* argv[])
     // Open the file
     ifstream file(filename);
 
-
+    // Load dataset
     graph_load(g,filename);
 
-    // hash_serlialize(g.hash_table,archivename);
-
-    // hash_deserialize(g.hash_table, archivename);
-
+    //Print hash table
     g.printHash();
 
     auto start = chrono::high_resolution_clock::now();
 
+    // Call bron kerbosch's algorithm 
     bron_kerbosch(g);
 
     // Get ending timepoint
