@@ -1,4 +1,6 @@
-#Overview
+# Overview
+
+
 Les graphes non orientés peuvent être utilisés en tant que structures de données qui nous permettent la modélisation des objets ou des problèmes avec de nombreuses applications et utilisations, notamment dans les domaines des réseaux sociaux, des réseaux de transport ou encore les domaines de la biologie. Parmi ces applications se trouve la recherche de structures,On peut par exemple chercher des communautés dans les graphes issus des réseaux sociaux, etc.
 
 Dans notre projet, nous nous intéresserons à la recherche des cliques maximales dans des graphes creux.
