@@ -1,13 +1,13 @@
 # Overview
 
 
-Les graphes non orientés peuvent être utilisés en tant que structures de données qui nous permettent la modélisation des objets ou des problèmes avec de nombreuses applications et utilisations, notamment dans les domaines des réseaux sociaux, des réseaux de transport ou encore les domaines de la biologie. Parmi ces applications se trouve la recherche de structures,On peut par exemple chercher des communautés dans les graphes issus des réseaux sociaux, etc.
+Undirected graphs can be used as data structures that allow us to model objects or problems with many applications and uses, notably in the fields of social networks, transportation networks or even biology. Among these applications is the search of structures, we can for example search for communities in graphs from social networks, etc.
 
-Dans notre projet, nous nous intéresserons à la recherche des cliques maximales dans des graphes creux.
+In our project, we are interested in finding maximal cliques in sparse graphs.
 
-Une clique est un sous-graphe du graphe principal comportant des noeuds qui sont tous connectés entre eux.
+A clique is a subgraph of the main graph with nodes that are all connected to each other.
 
-Le problème d’énumération de cliques maximales ou MCE est parmi les grands problèmes qui existent dans la recherche de cliques, c'est un problème algorithmique qui s'intègre dans le domaine de la théorie des graphes et il consiste à lister toutes les cliques maximales au sein d'un graphe non orienté.
+The maximal clique enumeration problem or MCE is one of the major problems in clique search, it is an algorithmic problem that fits in the field of graph theory and it consists in listing all maximal cliques within an undirected graph.
 
 
 
