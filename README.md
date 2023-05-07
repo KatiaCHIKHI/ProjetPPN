@@ -41,12 +41,6 @@ To test and compare results with email-Eu-core network dataset (from [here](http
 - cd ..
 - cd parallel && ./mainp datasets/email-Eu-core.txt | tail -n 1 >> ../../../result.txt
 
-To test and compare with facebook dataset (from [here](https://snap.stanford.edu/data/ego-Facebook.html)):
-
-- cd build/src/normal && ./main datasets/facebook_combined.txt | tail -n 1 > ../../../result.txt
-- cd ..
-- cd parallel && ./mainp datasets/facebook_combined.txt | tail -n 1 >> ../../../result.txt
-
 To test and compare with any other dataset :
 
 - cd build/src/normal && ./main datasets/{yourdataset} | tail -n 1 > ../../../result.txt
