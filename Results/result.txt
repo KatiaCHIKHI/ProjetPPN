@@ -1,0 +1,2 @@
+Normal 5452
+Parallelized 2420

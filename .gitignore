@@ -2,6 +2,5 @@
 main
 build
 Testing
-*.sh
-*.png
-result.txt
+result1.txt
+result2.txt
