@@ -1,0 +1,13 @@
+
+
+##Commande utilisée##
+' apt-cache policy libomp5'
+
+#OPenMp_Version##
+libomp5:
+  Installé : (aucun)
+  Candidat : 1:14.0-55~exp2
+ Table de version :
+     1:14.0-55~exp2 500
+        500 http://fr.archive.ubuntu.com/ubuntu jammy/universe amd64 Packages
+
