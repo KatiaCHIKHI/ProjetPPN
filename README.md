@@ -51,6 +51,10 @@ To generate comparison plot :
 
 - python compare_results.py
 
+To generate plots using a script file
+
+- gnuplot 'script_name.sh'
+
 ## Current goals
 
 - [x] Implement graph representation from the Python code into std::Vector map in C++
